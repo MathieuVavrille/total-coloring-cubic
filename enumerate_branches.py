@@ -147,18 +147,18 @@ for n in ["a", "b", "c", "e", "f", "g"]:#, "k", "l", "m", "n"]:
 for n in ["a", "b", "c", "e", "f", "g"]:#, "k", "l", "m", "n"]:
     simple2.add_node(n)
 
-for n in ["a", "b", "c", "d", "d2", "e", "f", "g"]:#, "k", "l", "m", "n"]:
+for n in ["a", "b", "c", "d", "e", "f"]:#, "k", "l", "m", "n"]:
     test.add_node(n)
 
 
 
-test.add_edge("a", "c")
+test.add_edge("a", "b")
 test.add_edge("b", "c")
+test.add_edge("b", "d")
 test.add_edge("c", "d")
-test.add_edge("d", "d2")
-test.add_edge("d2", "e")
+test.add_edge("c", "e")
+test.add_edge("d", "e")
 test.add_edge("e", "f")
-test.add_edge("e", "g")
 
 simple.add_edge("a", "c")
 simple.add_edge("b", "c")
@@ -175,10 +175,18 @@ simple2.add_edge("e", "g")
 max_found = 0
 total = 0
 test.add_coloration_node("a", 0)
-test.add_coloration_edge("a","c", 1)
-simple.add_coloration_node("a", 0)
-simple.add_coloration_edge("a","c", 1)
+test.add_coloration_edge("a","b", 1)
+#simple.add_coloration_node("a", 0)
+#simple.add_coloration_edge("a","c", 1)
 for i in range(4):
+    test.add_coloration_node("f", i)
+    for j in test.allowed_colors_edge("f", "e"):
+        test.add_coloration_edge("f", "e", j)
+        res = test.enumerate_coloration()
+        if len(res) == 0:
+            print(j, i)
+        test.add_coloration_edge("f", "e", -1)
+"""for i in range(4):
     test.add_coloration_node("b", i)
     simple.add_coloration_node("b", i)
     simple2.add_coloration_node("b", i)
@@ -223,7 +231,7 @@ for i in range(4):
             simple2.add_coloration_node("f", -1)
         test.add_coloration_edge("b", "c", -1)
         simple.add_coloration_edge("b", "c", -1)
-        simple2.add_coloration_edge("b", "c", -1)
+        simple2.add_coloration_edge("b", "c", -1)"""
 print(max_found)
 print(total)
 
