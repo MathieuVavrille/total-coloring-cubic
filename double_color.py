@@ -47,11 +47,19 @@ def get_max_root(A, B, C, list_recurrence):
             root = find_root(l[i])
             #results[l[i]] = root
         #print(i, root, l[i][0], l[i][1])
-        all_roots.append((root, i, l[i]))
+        all_roots.append((root, i))#, l[i]))
         if root > r_max:
             r_max = root
             i_max = i
     return r_max, sorted(all_roots), l
+
+def min_val(A, allowed=[(0,0), (0,1), (1,0)]):
+    val_min = None
+    for (x,y) in allowed:
+        current = A[x][y]
+        if val_min == None or current < val_min:
+            val_min = current
+    return val_min
 
 def min_a_b(A,B, allowed=[(0,0), (0,1), (1,0)]):
     val_min = None
@@ -79,14 +87,16 @@ def min_xplus(D, allowed=[(0,0), (0,1), (1,0)]):
     return val_min
 
 def get_list_recurrence(A, B, C):
-    return [(A[1][0]+min_a_b(A, B)+min_yplus(A), )*2, #a10
-            (A[0][1]+2*min_a_b(A, B), A[0][1]+min_a_b(A, B)+min_yplus(A), A[0][1]+min_a_b(A, B)+min_yplus(A)), 
-            (A[0][1]+2*min_a_b(A, C), A[0][1]+min_a_b(A, B)+min_yplus(A), A[0][1]+min_a_b(A, B)+min_yplus(A))
+    return [(A[1][0]+min_a_b(A, B, allowed=[(0,0)])+min_yplus(A), )*2, #a10
+            (A[0][1]+2*min_a_b(A, B), A[0][1]+A[0][0]-B[0][0]+min_yplus(A), A[0][1]+A[0][0]-B[0][0]+min_yplus(A)), 
+            (A[0][1]+2*min_a_b(A, C), A[0][1]+min_a_b(A, B)+min_yplus(A), A[0][1]+min_a_b(A, B)+min_yplus(A)), 
             (B[0][0]+2*min_yplus(A), B[0][0]+min_a_b(A, B)+min_xplus(A) , B[0][0]+min_a_b(A, B)+min_xplus(A)), 
-            (B[0][1]+min_yplus(A), B[0][1]+min_a_b(A, B)), 
+            (B[0][1]+A[0][1]+min_yplus(A), B[0][1]+A[0][1]+min_a_b(A, B), B[0][1]+A[0][1]+min_a_b(A, B)), 
             (B[0][1]+min_yplus(A), B[0][1]+min_a_b(A, C)), 
             (2*C[0][0]+min_a_b(A, B)+min_yplus(A), 2*C[0][0]+min_a_b(A, B)+min_yplus(A), 2*C[0][0]+2*min_xplus(A), 2*C[0][0]+2*min_yplus(A)), 
-            (C[0][0]+C[0][1]+min_a_b(A, B), C[0][0]+C[0][1]+min_yplus(A), C[0][0]+C[0][1]+min_xplus(A))]
+            (C[0][0]+C[0][1]+min_a_b(A, B), C[0][0]+C[0][1]+min_yplus(A), C[0][0]+C[0][1]+min_xplus(A)), 
+            (C[0][0]+C[0][1], )*2, 
+            (2*C[0][0]+min_val(A), )*4]
 
 
 
@@ -164,11 +174,13 @@ def iterate(nb_steps, update_coeff, N, interval, starting):
     print(r_min1)
     print(c_min1)
     print(i_min1)
-    for l in l_max:
-        print(l)
+    l, A, B, C = l_max
+    print(A[0][0]-B[0][0])
+    print(A[0][1]-B[0][1])
+    print(A[1][0]-B[1][0])
     print(log(r_min1, 2))
 
-iterate(10, 4, 4, 5, [0.5, 0.9, 0.76, 0.65, 0.7, 0.3])
+iterate(5, 4, 4, 4, [0.46, 0.86, 0.74, 0.61, 0.72, 0.32])
 
 #scp Bureau/stage/total-coloring-cubic/double_color.py  vavrille@chuck.mimuw.edu.pl:~/            (with -R for folder)
 
