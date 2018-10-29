@@ -74,7 +74,7 @@ def min_xplus(D, allowed=[(0,0), (0,1), (1,0), (1,1)]):
     return val_min
 
 def get_list_recurrence(A):
-    return ([(5*A[0][0]-2*min_yplus(A)-2*min_xplus(A), )*6,
+    return ([(A[0][0]+2*min_yplus(A)+2*min_xplus(A), )*6,
             (A[1][0]+min_xplus(A, allowed = [(0,1), (1,0), (1,1)])+2*min_yplus(A, allowed = [(0,1), (1,0), (1,1)]), )*3,
             (A[1][0]+min_yplus(A, allowed = [(0,1), (1,0), (1,1)])+2*min_xplus(A, allowed = [(0,1), (1,0), (1,1)]), )*3,
             (4*A[1][1], )*2
@@ -120,6 +120,8 @@ def iterate(nb_steps, update_coeff, N, interval, starting):
         print("We got:")
         print("Root: %.5f. Giving a final algo in 2^(%.20f n)"%(r_min1, log(r_min1, 2)))
         print("With the coefficients %s"%(str(c_min1)))
+        print(i_min1)
+        print(l_max[0])
         print("")
         starting = c_min1
         interval *= update_coeff
@@ -130,7 +132,7 @@ def iterate(nb_steps, update_coeff, N, interval, starting):
     #print(l_max[1])
     print(log(r_min1, 2))
 
-iterate(10, 5, 20, 1, [0.5, 0.5, 0.5])
+iterate(20, 4, 50, 1, [0.5, 0.5, 0.5])
 
 
 
