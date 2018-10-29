@@ -120,8 +120,8 @@ def iterate(nb_steps, update_coeff, N, interval, starting):
         print("We got:")
         print("Root: %.5f. Giving a final algo in 2^(%.20f n)"%(r_min1, log(r_min1, 2)))
         print("With the coefficients %s"%(str(c_min1)))
-        print(i_min1)
-        print(l_max[0])
+        #print(i_min1)
+        #print(l_max[0])
         print("")
         starting = c_min1
         interval *= update_coeff
