@@ -74,10 +74,10 @@ def min_xplus(D, allowed=[(0,0), (0,1), (1,0), (1,1)]):
     return val_min
 
 def get_list_recurrence(A):
-    return ([(A[0][0]+2*min_yplus(A)+2*min_xplus(A), )*6,
-            (A[1][0]+min_xplus(A, allowed = [(0,1), (1,0), (1,1)])+2*min_yplus(A, allowed = [(0,1), (1,0), (1,1)]), )*3,
-            (A[1][0]+min_yplus(A, allowed = [(0,1), (1,0), (1,1)])+2*min_xplus(A, allowed = [(0,1), (1,0), (1,1)]), )*3,
-            (4*A[1][1], )*2
+    return ([(A[0][0]+2*min_yplus(A, allowed = [(0,0),(0,1),(1,0)])+2*min_xplus(A, allowed = [(0,0),(0,1),(1,0)]), )*6,
+            (A[0][0]+2*min(A[0][0]-A[0][1], A[0][1]), )*4,
+            (A[0][0]+min(A[0][0]-A[0][1], A[0][1]), )*2,
+            (2*A[1][0], )*2
             ])
 
 """Remarks
@@ -97,7 +97,7 @@ def get_min_coeff_double(N, interval, starting_points):
             a00 = 1
             a10 = e1/(N*interval)+starting_points[0]-1/(2*interval)
             a01 = a10
-            a11 = e2/(N*interval)+starting_points[1]-1/(2*interval)
+            a11 = 0#e2/(N*interval)+starting_points[1]-1/(2*interval)
             A = [[0]*3 for j in range(3)]
             A[0][0] = a00
             A[1][0] = a10
@@ -116,6 +116,7 @@ def iterate(nb_steps, update_coeff, N, interval, starting):
     """Iterate to increase the precision of the best coefficients"""
     for i in range(nb_steps):
         print("Now finding at precision %d digits at starting points %s"%(log(interval, 10), str(starting)))
+        print(starting)
         r_min1, c_min1, i_min1, l_max = get_min_coeff_double(N, interval, starting)
         print("We got:")
         print("Root: %.5f. Giving a final algo in 2^(%.20f n)"%(r_min1, log(r_min1, 2)))
